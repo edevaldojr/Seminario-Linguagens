@@ -1,40 +1,44 @@
-import pymysql
+import mysql.connector
 
+conexao = mysql.connector.connect(
+	host = 'wagnerweinert.com.br',
+	user = '',
+	password = '',
+	database = ''
+)
 
-conn = pymysql.connect(host="localhost", user="root", password="", db="seminario_pessoas")
+cursor = conexao.cursor()
 
-crudPessoa = conn.cursor()
+# CREATE
+nome = input("Nome: ")
+email = input("Email: ")
+telefone = input("Telefone: ")
 
+comando = f'INSERT INTO Pessoas (nome, email, telefone) VALUES ("{nome}", "{email}", "{telefone}")'
+cursor.execute(comando)
+conexao.commit()
 
-opcao = 0
+# READ
+comando = f'SELECT * FROM Pessoas'
+cursor.execute(comando)
+resultado = cursor.fetchall()
 
-while opcao != 5:
-    print("1 - INSERT")
-    print("2 - UPDATE")
-    print("3 - DELETE")
-    print("4 - SELECT")
-    print("5 - EXIT")
-    print("insira uma opção> ")
-    opcao = input()
+print(resultado)
 
-    if opcao == 1:
-        crudPessoa.execute("INSERT INTO pessoa(nome, email, telefone, idade) VALUES(Lucas Gomes da Silva, lucasg@gmail.com, 20)")
-        print(" > Dados inseridos!!")
-    
-    else:
-        print("Saindo do loop")
+# UPDATE
+email = input("Email: ")
+telefone = input("Novo Telefone: ")
 
+comando = f'UPDATE Pessoas SET telefone = "{telefone}" WHERE email = "{email}"'
+cursor.execute(comando)
+conexao.commit()
 
+# DELETE
+email = input("Email: ")
 
-#crudPessoa.execute("UPDATE seminario_pessoas SET nome=?, email=?, telefone=?, idade=? WHERE id=?")
-#print(" > Dados atualizados!!")
+comando = f'DELETE FROM Pessoas WHERE email = "{email}"'
+cursor.execute(comando)
+conexao.commit()
 
-#crudPessoa.execute("DELETE FROM seminario_pessoas WHERE id=?")
-#print(" > Dados apagados!!")
-
-#crudPessoa.execute("SELECT * FROM seminario_pessoas WHERE id=?")
-#print(" > Dados recuperados!!")
-
-
-conn.commit()
-conn.close
+cursor.close()
+conexao.close()
