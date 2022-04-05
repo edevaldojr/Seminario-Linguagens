@@ -2,43 +2,61 @@ import mysql.connector
 
 conexao = mysql.connector.connect(
 	host = 'wagnerweinert.com.br',
-	user = '',
-	password = '',
-	database = ''
+	user = 'tads20_lucas_silva',
+	password = 'Y6S4aSxDk3K2vO6C',
+	database = 'tads20_lucas_silva'
 )
 
 cursor = conexao.cursor()
 
-# CREATE
-nome = input("Nome: ")
-email = input("Email: ")
-telefone = input("Telefone: ")
+opcao = 0
 
-comando = f'INSERT INTO Pessoas (nome, email, telefone) VALUES ("{nome}", "{email}", "{telefone}")'
-cursor.execute(comando)
-conexao.commit()
+while opcao != 5:
+	print("\n")
+	print("1 - Create")
+	print("2 - Read")
+	print("3 - Update")
+	print("4 - Delete")
+	print("5 - Sair")
 
-# READ
-comando = f'SELECT * FROM Pessoas'
-cursor.execute(comando)
-resultado = cursor.fetchall()
+	opcao = int(input("\n> "))
 
-print(resultado)
+	if opcao == 1:
+		nome = input("Nome: ")
+		email = input("Email: ")
+		telefone = input("Telefone: ")
+		idade = int(input("Idade: "))
 
-# UPDATE
-email = input("Email: ")
-telefone = input("Novo Telefone: ")
+		comando = f'INSERT INTO pessoas_python (nome, email, telefone, idade) VALUES ("{nome}", "{email}", "{telefone}", "{idade}")'
+		cursor.execute(comando)
+		conexao.commit()
 
-comando = f'UPDATE Pessoas SET telefone = "{telefone}" WHERE email = "{email}"'
-cursor.execute(comando)
-conexao.commit()
+	elif opcao == 2:
+		comando = f'SELECT * FROM pessoas_python'
+		cursor.execute(comando)
+		resultado = cursor.fetchall()
+	
+		print(resultado)
 
-# DELETE
-email = input("Email: ")
+	elif opcao == 3:
+		email = input("Email: ")
+		telefone = input("Novo Telefone: ")
 
-comando = f'DELETE FROM Pessoas WHERE email = "{email}"'
-cursor.execute(comando)
-conexao.commit()
+		comando = f'UPDATE pessoas_python SET telefone = "{telefone}" WHERE email = "{email}"'
+		cursor.execute(comando)
+		conexao.commit()
 
-cursor.close()
-conexao.close()
+	elif opcao == 4:
+		email = input("Email: ")
+
+		comando = f'DELETE FROM pessoas_python WHERE email = "{email}"'
+		cursor.execute(comando)
+		conexao.commit()
+
+	elif opcao == 5:
+		cursor.close()
+		conexao.close()
+		break
+		
+	else:
+		print("Opcao inválida!")
