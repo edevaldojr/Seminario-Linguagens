@@ -12,7 +12,8 @@ cursor = conexao.cursor()
 opcao = 0
 
 while opcao != 5:
-	print("\n1 - Create")
+	print("\n")
+	print("1 - Create")
 	print("2 - Read")
 	print("3 - Update")
 	print("4 - Delete")
@@ -24,35 +25,38 @@ while opcao != 5:
 		nome = input("Nome: ")
 		email = input("Email: ")
 		telefone = input("Telefone: ")
+		idade = int(input("Idade: "))
 
-		comando = f'INSERT INTO Pessoas (nome, email, telefone) VALUES ("{nome}", "{email}", "{telefone}")'
+		comando = f'INSERT INTO pessoas_python (nome, email, telefone, idade) VALUES ("{nome}", "{email}", "{telefone}", "{idade}")'
 		cursor.execute(comando)
 		conexao.commit()
 
 	elif opcao == 2:
-		comando = f'SELECT * FROM Pessoas'
+		comando = f'SELECT * FROM pessoas_python'
 		cursor.execute(comando)
 		resultado = cursor.fetchall()
-
+	
 		print(resultado)
 
 	elif opcao == 3:
 		email = input("Email: ")
 		telefone = input("Novo Telefone: ")
 
-		comando = f'UPDATE Pessoas SET telefone = "{telefone}" WHERE email = "{email}"'
+		comando = f'UPDATE pessoas_python SET telefone = "{telefone}" WHERE email = "{email}"'
 		cursor.execute(comando)
 		conexao.commit()
 
 	elif opcao == 4:
 		email = input("Email: ")
 
-		comando = f'DELETE FROM Pessoas WHERE email = "{email}"'
+		comando = f'DELETE FROM pessoas_python WHERE email = "{email}"'
 		cursor.execute(comando)
 		conexao.commit()
 
+	elif opcao == 5:
 		cursor.close()
 		conexao.close()
-
+		break
+		
 	else:
 		print("Opcao inválida!")
